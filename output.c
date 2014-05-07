@@ -444,6 +444,10 @@ print_html_footer (FILE * fp)
   fprintf (fp, "</div> <!-- l-box -->\n");
   fprintf (fp, "</div> <!-- main -->\n");
   fprintf (fp, "</div> <!-- layout -->\n");
+  fprintf (fp, "<script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js'></script>\n"); 
+  fprintf (fp, "<script src='//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.16.3/jquery.tablesorter.min.js'></script>\n");
+  fprintf (fp, "<script src='//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.16.3/jquery.tablesorter.widgets.js'></script>\n");
+  fprintf (fp, "<script>$('.pure-table').tablesorter({widgets:['filter']});</script>\n");
   fprintf (fp, "</body>\n");
   fprintf (fp, "</html>");
 }
@@ -709,7 +713,7 @@ print_html_generic (FILE * fp, GHolder * h, int process)
   print_html_begin_tbody (fp);
 
   until = h->idx < MAX_CHOICES ? h->idx : MAX_CHOICES;
-  for (i = 0; i < until; i++) {
+  for (i = 0; i < h->idx; i++) {
     hits = h->items[i].hits;
     data = h->items[i].data;
     percent = get_percentage (process, hits);
@@ -893,12 +897,12 @@ print_html_hosts (FILE * fp, GHolder * h, int process)
 
   until = h->idx < MAX_CHOICES ? h->idx : MAX_CHOICES;
   max = 0;
-  for (i = 0; i < until; i++) {
+  for (i = 0; i < h->idx; i++) {
     if (h->items[i].hits > max)
       max = h->items[i].hits;
   }
 
-  for (i = 0; i < until; i++) {
+  for (i = 0; i < h->idx; i++) {
     hits = h->items[i].hits;
     data = h->items[i].data;
     percent = get_percentage (process, hits);
@@ -1064,7 +1068,7 @@ print_html_request_report (FILE * fp, GHolder * h, int process)
   print_html_begin_tbody (fp);
 
   until = h->idx < MAX_CHOICES ? h->idx : MAX_CHOICES;
-  for (i = 0; i < until; i++) {
+  for (i = 0; i < h->idx ; i++) {
     hits = h->items[i].hits;
     data = h->items[i].data;
     percent = get_percentage (process, hits);
